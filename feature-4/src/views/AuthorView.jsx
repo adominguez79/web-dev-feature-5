@@ -1,31 +1,25 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Parse from 'parse'
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getUserById } from "../models/User";
+import ProfileCard from "../components/Profile/ProfileCard";
 
 const AuthorView = () => {
-    const { id } = useParams();
-    const [authorData, setAuthorData] = useState(null);
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect ( () => {
-        async function fetchAuthor() {
-            const query = new Parse.Query(Parse.User);
-            try {
-                const user = await query.get(id);
-                setAuthorData(user);
-            } catch (err) {
-                console.error("Error fetching Author", err);
-            }
-        }
-        fetchAuthor();
-    }, [id]);
-    if (!authorData) return <div>Loading...</div>;
+  useEffect(() => {
+    getUserById(id).then(setUser).catch(console.error);
+  }, [id]);
 
-    return (
-        <div>
-            <h2>User: {authorData.get("username")}</h2>
-            <p>Bio: {authorData.get("Bio") || "No Bio yet"}</p>
-            <p>Interests: {authorData.get("Interests")}</p>
-        </div>
-    );
+  return (
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <button onClick={() => navigate(-1)} style={{ marginBottom: "20px", cursor: "pointer" }}>
+        ← Back
+      </button>
+      <ProfileCard user={user} />
+    </div>
+  );
 };
+
 export default AuthorView;

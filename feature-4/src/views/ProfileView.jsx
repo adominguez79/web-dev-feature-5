@@ -1,15 +1,24 @@
 // src/views/ProfileView.jsx
 import { useState } from "react";
-import Parse from "parse";
+import Parse from "../services/ParseConfig";
+import { getOrCreateUser } from "../models/User";
 
 const ProfileView = () => {
-  const user = Parse.User.current();
-  const [username, setUsername] = useState(user?.get("username") || "");
-  const [bio, setBio] = useState(user?.get("Bio") || ""); // Capital B
-  const [interests, setInterests] = useState(user?.get("Interests") || ""); // Capital I
+  const currentUser = Parse.User.current();
+  const [username, setUsername] = useState(currentUser?.get("username") || "");
+  const [bio, setBio] = useState(currentUser?.get("Bio") || ""); // Capital B
+  const [interests, setInterests] = useState(currentUser?.get("Interests") || ""); // Capital I
 
   const saveProfile = async () => {
     try {
+      let user = currentUser;
+      if (!user) {
+        if (!username?.trim()) {
+          alert("Please enter a username to create a profile.");
+          return;
+        }
+        user = await getOrCreateUser(username.trim());
+      }
       user.set("username", username);
       user.set("Bio", bio);
       user.set("Interests", interests);
