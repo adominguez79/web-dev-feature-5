@@ -14,7 +14,10 @@ const AuthorView = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
-      <button onClick={() => navigate(-1)} style={{ marginBottom: "20px", cursor: "pointer" }}>
+      <button
+        onClick={() => navigate(-1)}
+        style={{ marginBottom: "20px", cursor: "pointer" }}
+      >
         ← Back
       </button>
       <ProfileCard user={user} />

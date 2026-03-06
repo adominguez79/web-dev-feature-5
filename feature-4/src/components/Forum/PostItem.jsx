@@ -7,11 +7,28 @@ const PostItem = ({ post }) => {
   const authorId = authorObj ? authorObj.id : "";
 
   return (
-    <div style={{ border: "1px solid #ddd", padding: "15px", marginBottom: "20px", borderRadius: "8px" }}>
+    <div
+      style={{
+        border: "1px solid #ddd",
+        padding: "15px",
+        marginBottom: "20px",
+        borderRadius: "8px",
+      }}
+    >
       <h2>{post.get("Title")}</h2>
-      <p>By: <Link to={`/Author/${authorId}`} style={{ fontWeight: "bold", textDecoration: "none", color: "#007bff" }}>
-        {authorName}
-      </Link></p>
+      <p>
+        By:{" "}
+        <Link
+          to={`/Author/${authorId}`}
+          style={{
+            fontWeight: "bold",
+            textDecoration: "none",
+            color: "#007bff",
+          }}
+        >
+          {authorName}
+        </Link>
+      </p>
       <p style={{ whiteSpace: "pre-wrap" }}>{post.get("body")}</p>
       <hr style={{ margin: "15px 0" }} />
       <h4>Comments</h4>

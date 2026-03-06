@@ -1,6 +1,5 @@
 import Parse from "parse";
 
-
 export const getUserById = async (id) => {
   const query = new Parse.Query(Parse.User);
   return await query.get(id);

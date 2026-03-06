@@ -1,11 +1,11 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./Components/Common/Navbar"; // Adjust import path if needed
-import AuthorView from "./views/AuthorView";
-import Env from './environments'
+import AuthorView from "./Views/AuthorView";
+import Env from "./environments";
 import Parse from "parse";
-import ForumView from './views/ForumView';
-import ProfileView from './views/ProfileView';
+import ForumView from "./Views/ForumView";
+import ProfileView from "./Views/ProfileView";
 
 Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
 Parse.serverURL = Env.SERVER_URL;

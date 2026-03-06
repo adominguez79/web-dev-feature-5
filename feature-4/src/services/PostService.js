@@ -1,4 +1,3 @@
-
 import Parse from "parse";
 
 export const fetchAllPosts = async () => {
@@ -11,7 +10,7 @@ export const fetchAllPosts = async () => {
   } catch (e) {
     // If the stored session token is invalid (e.g. user deleted from backend),
     // clear the current user and retry once without a session token.
-    const msg = (e && (e.message || ""));
+    const msg = e && (e.message || "");
     const code = e && e.code;
     if (msg.toLowerCase().includes("invalid session token") || code === 209) {
       try {

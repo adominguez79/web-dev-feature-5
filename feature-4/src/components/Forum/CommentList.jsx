@@ -1,31 +1,42 @@
 // src/components/Forum/CommentList.jsx
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchComments, addComment, editComment, removeComment } from "../../Services/ComentService"; 
+import { fetchComments, addComment } from "../../Services/ComentService";
+import { getCurrentUser } from "../../Services/UserService";
+import CommentCard from "./CommentCard";
 
 const CommentList = ({ postId }) => {
+  const currentUser = getCurrentUser();
   const [comments, setComments] = useState([]);
   const [newBody, setNewBody] = useState("");
-  const [editingId, setEditingId] = useState(null);
-  const [editingBody, setEditingBody] = useState("");
+
+  const loadComments = async () => {
+    try {
+      const results = await fetchComments(postId);
+      setComments(results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    fetchComments(postId).then((posts) => {setComments(posts)});
-
-
-
-
-
-
-
-
-
-
-
+    loadComments();
   }, [postId]);
+
+  const handleAddComment = async () => {
+    if (!newBody.trim()) return;
+
+    try {
+      await addComment(postId, newBody.trim());
+      setNewBody("");
+      await loadComments();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div>
+      {/* New Comment Form */}
       <div style={{ marginBottom: 12 }}>
         <textarea
           placeholder="Write a comment..."
@@ -33,78 +44,21 @@ const CommentList = ({ postId }) => {
           onChange={(e) => setNewBody(e.target.value)}
           style={{ width: "100%", minHeight: 60 }}
         />
-        <button
-          onClick={async () => {
-            if (!newBody.trim()) return;
-            try {
-              await addComment(postId, newBody.trim());
-              const updated = await fetchComments(postId);
-              setComments(updated);
-              setNewBody("");
-            } catch (e) {
-              alert(e.message);
-            }
-          }}
-        >
-          Post Comment
-        </button>
+
+        <button onClick={handleAddComment}>Post Comment</button>
       </div>
 
+      {/* Comment List */}
       {comments.length === 0 ? (
         <p style={{ color: "gray" }}>No comments yet.</p>
       ) : (
-        comments.map((c) => (
-          <div key={c.id} style={{ marginBottom: "10px", fontSize: "0.9rem" }}>
-            {editingId === c.id ? (
-              <div>
-                <textarea
-                  value={editingBody}
-                  onChange={(e) => setEditingBody(e.target.value)}
-                  style={{ width: "100%", minHeight: 60 }}
-                />
-                <button
-                  onClick={async () => {
-                    try {
-                      await editComment(c.id, editingBody);
-                      const updated = await fetchComments(postId);
-                      setComments(updated);
-                      setEditingId(null);
-                      setEditingBody("");
-                    } catch (e) {
-                      alert(e.message);
-                    }
-                  }}
-                >
-                  Save
-                </button>
-                <button onClick={() => { setEditingId(null); setEditingBody(""); }}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                <span>{c.get("body")} — </span>
-                {/* Constraint 3: Clickable author taking you to their profile */}
-                <Link to={`/author/${c.get("author")?.id}`} style={{ fontWeight: "bold" }}>
-                  {c.get("author")?.get("username")}
-                </Link>
-                <div style={{ marginTop: 6 }}>
-                  <button onClick={() => { setEditingId(c.id); setEditingBody(c.get("body") || ""); }}>Edit</button>
-                  <button
-                    onClick={async () => {
-                      if (!confirm("Delete this comment?")) return;
-                      try {
-                        await removeComment(c.id);
-                        setComments((prev) => prev.filter((p) => p.id !== c.id));
-                      } catch (e) {
-                        alert(e.message);
-                      }
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+        comments.map((comment) => (
+          <CommentCard
+            key={comment.id}
+            comment={comment}
+            currentUser={currentUser}
+            refreshComments={loadComments}
+          />
         ))
       )}
     </div>

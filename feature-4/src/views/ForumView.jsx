@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchAllPosts, createPost } from "../Services/PostService";
-import { getOrCreateUser, getCurrentUser } from "../Services/UserService";
+import {
+  logout,
+  getOrCreateUser,
+  getCurrentUser,
+} from "../Services/UserService";
 import PostList from "../Components/Forum/PostList";
 
 const ForumView = () => {
@@ -32,6 +36,19 @@ const ForumView = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      console.log("User logged out");
+      setCurrentUser(null); // forces login screen
+      setPosts([]); //clear forum
+      setTitle("");
+      setBody("");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -47,10 +64,17 @@ const ForumView = () => {
     }
   };
 
-  // LOGIN SCREEN
+  // Login Screen if currentUser is null
   if (!currentUser) {
     return (
-      <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto", fontFamily: "sans-serif" }}>
+      <div
+        style={{
+          padding: "20px",
+          maxWidth: "500px",
+          margin: "0 auto",
+          fontFamily: "sans-serif",
+        }}
+      >
         <h2>Login to Message Board</h2>
 
         <form onSubmit={handleLogin}>
@@ -71,7 +95,7 @@ const ForumView = () => {
               color: "white",
               border: "none",
               borderRadius: "5px",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             Login
@@ -81,11 +105,18 @@ const ForumView = () => {
     );
   }
 
-  // FORUM SCREEN
+  // Forum view when user is logged in
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto", fontFamily: "sans-serif" }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "800px",
+        margin: "0 auto",
+        fontFamily: "sans-serif",
+      }}
+    >
       <h1>Message Board</h1>
-
+      <button onClick={handleLogout}>Logout</button>
       <form
         onSubmit={handlePostSubmit}
         style={{
@@ -93,11 +124,13 @@ const ForumView = () => {
           padding: "20px",
           marginBottom: "30px",
           borderRadius: "8px",
-          backgroundColor: "#f9f9f9"
+          backgroundColor: "#f9f9f9",
         }}
       >
         <h3>Write a New Post</h3>
-        <p><strong>Posting as:</strong> {currentUser.get("username")}</p>
+        <p>
+          <strong>Posting as:</strong> {currentUser.get("username")}
+        </p>
 
         <input
           type="text"
@@ -113,7 +146,12 @@ const ForumView = () => {
           value={body}
           onChange={(e) => setBody(e.target.value)}
           required
-          style={{ width: "100%", padding: "8px", marginBottom: "10px", minHeight: "80px" }}
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginBottom: "10px",
+            minHeight: "80px",
+          }}
         />
 
         <button
@@ -125,7 +163,7 @@ const ForumView = () => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           Submit Post
