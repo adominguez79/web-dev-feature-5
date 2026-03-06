@@ -1,10 +1,9 @@
 // src/views/ProfileView.jsx
 import { useState } from "react";
-import Parse from "../services/ParseConfig";
-import { getOrCreateUser } from "../models/User";
+import { getOrCreateUser, getCurrentUser, logout} from "../Services/UserService";
 
 const ProfileView = () => {
-  const currentUser = Parse.User.current();
+  const currentUser = getCurrentUser();
   const [username, setUsername] = useState(currentUser?.get("username") || "");
   const [bio, setBio] = useState(currentUser?.get("Bio") || ""); // Capital B
   const [interests, setInterests] = useState(currentUser?.get("Interests") || ""); // Capital I

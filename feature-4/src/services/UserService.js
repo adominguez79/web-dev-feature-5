@@ -1,6 +1,6 @@
-import Parse from "../services/ParseConfig";
+import Parse from "parse";
 
-// Fetches a user for the AuthorView
+
 export const getUserById = async (id) => {
   const query = new Parse.Query(Parse.User);
   return await query.get(id);
@@ -31,5 +31,16 @@ export const getOrCreateUser = async (username) => {
       throw e;
     }
   }
+  await Parse.User.logIn(username, "dummy_pass_123");
   return user;
+};
+
+//Logout user
+export const logout = async () => {
+  await Parse.User.logOut();
+};
+
+// Get current logged in user
+export const getCurrentUser = () => {
+  return Parse.User.current();
 };

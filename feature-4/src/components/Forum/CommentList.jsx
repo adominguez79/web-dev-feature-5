@@ -1,8 +1,7 @@
 // src/components/Forum/CommentList.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Parse from "../../services/ParseConfig";
-import { fetchComments, addComment, editComment, removeComment } from "../../Services/PostService"; 
+import { fetchComments, addComment, editComment, removeComment } from "../../Services/ComentService"; 
 
 const CommentList = ({ postId }) => {
   const [comments, setComments] = useState([]);

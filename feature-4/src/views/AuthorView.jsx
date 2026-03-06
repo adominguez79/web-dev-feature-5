@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUserById } from "../models/User";
-import ProfileCard from "../components/Profile/ProfileCard";
+import { getUserById } from "../Services/UserService";
+import ProfileCard from "../Components/Profile/ProfileCard";
 
 const AuthorView = () => {
   const { id } = useParams();
