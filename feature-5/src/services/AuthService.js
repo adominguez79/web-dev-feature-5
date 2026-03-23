@@ -8,13 +8,18 @@ export const getUserById = async (id) => {
 export const createUser = (newUser) => {
   const user = new Parse.User();
 
-  user.set("username", newUser.email);
+  user.set("username", newUser.username);
   user.set("password", newUser.password);
   user.set("email", newUser.email);
-  user.set("bio", newUser.firstName);
-  user.set("interests", newUser.lastName);
+  user.set("firstName", newUser.firstName);
+  user.set("lastName", newUser.lastName);
 
   console.log("User: ", user);
+
+  const acl = new Parse.ACL();
+  acl.setPublicReadAccess(true); // Allows others to see their name/username
+
+  user.setACL(acl);
 
   return user
     .signUp()

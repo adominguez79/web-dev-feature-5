@@ -2,6 +2,8 @@ const ProfileCard = ({ user }) => {
   if (!user) return <p style={{ textAlign: "center" }}>Loading profile...</p>;
 
   // Safely grab the data from your Parse User object
+  const firstName = user.get("firstName") || "No Name";
+  const lastName = user.get("lastName") || "McGee";
   const username = user.get("username") || "Unknown User";
   const bio = user.get("Bio") || "This user hasn't written a bio yet.";
   const interests = user.get("Interests") || "No interests listed.";
@@ -23,6 +25,13 @@ const ProfileCard = ({ user }) => {
       >
         {username}
       </h2>
+
+      <h4
+        style = {{ margin: "0 0 5px 0", textAlign: "center", fontSize: "1rem" }}
+        >
+          {firstName} {lastName}
+      </h4>
+
       <p style={{ color: "gray", textAlign: "center", marginBottom: "20px" }}>
         Message Board Member
       </p>

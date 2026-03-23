@@ -1,6 +1,8 @@
 import React from "react";
-//TODO: Add registration fields and logic
+
 const AuthForm = ({ user, onChange, onSubmit, mode }) => {
+  const isRegister = mode === "register";
+
   return (
     <div
       style={{
@@ -10,17 +12,60 @@ const AuthForm = ({ user, onChange, onSubmit, mode }) => {
         fontFamily: "sans-serif",
       }}
     >
-      <h2>Login to Message Board</h2>
+      <h2>{isRegister ? "Create an Account" : "Login to Message Board"}</h2>
 
       <form onSubmit={onSubmit}>
+        {/* Registration Only Fields */}
+        {isRegister && (
+          <>
+            <div>
+              <label>First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={user.firstName || ""}
+                onChange={onChange}
+                placeholder="first name"
+                required
+                style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+              />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={user.lastName || ""}
+                onChange={onChange}
+                placeholder="last name"
+                required
+                style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+              />
+            </div>
+            <div>
+              <label>Username</label>
+              <input
+                type="username"
+                name="username"
+                value={user.username}
+                onChange={onChange}
+                placeholder="username"
+                required
+                style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+              />
+            </div>
+          </>
+        )}
+
+        {/* Common Fields */}
+
         <div>
           <label>Email</label>
-          <br />
           <input
             type="email"
+            name="email"
             value={user.email}
             onChange={onChange}
-            name="email"
             placeholder="email"
             required
             style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
@@ -29,12 +74,11 @@ const AuthForm = ({ user, onChange, onSubmit, mode }) => {
 
         <div>
           <label>Password</label>
-          <br />
           <input
             type="password"
+            name="password"
             value={user.password}
             onChange={onChange}
-            name="password"
             placeholder="password"
             required
             style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
@@ -50,84 +94,15 @@ const AuthForm = ({ user, onChange, onSubmit, mode }) => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            width: "100%", // Made full width for better look
+            fontSize: "16px"
           }}
         >
-          Login
+          {isRegister ? "Register" : "Login"}
         </button>
       </form>
     </div>
   );
 };
-
-//   return (
-//     <div>
-//       <form onSubmit={onSubmit}>
-//         {/* Only show for register */}
-//         {mode === "register" && (
-//           <>
-//             <div>
-//               <label>First Name</label>
-//               <br />
-//               <input
-//                 type="text"
-//                 value={user.firstName || ""}
-//                 onChange={onChange}
-//                 name="firstName"
-//                 placeholder="first name"
-//                 required
-//               />
-//             </div>
-
-//             <div>
-//               <label>Last Name</label>
-//               <br />
-//               <input
-//                 type="text"
-//                 value={user.lastName || ""}
-//                 onChange={onChange}
-//                 name="lastName"
-//                 placeholder="last name"
-//                 required
-//               />
-//             </div>
-//           </>
-//         )}
-
-//         {/* Always show */}
-//         <div>
-//           <label>Email</label>
-//           <br />
-//           <input
-//             type="email"
-//             value={user.email}
-//             onChange={onChange}
-//             name="email"
-//             placeholder="email"
-//             required
-//           />
-//         </div>
-
-//         <div>
-//           <label>Password</label>
-//           <br />
-//           <input
-//             type="password"
-//             value={user.password}
-//             onChange={onChange}
-//             name="password"
-//             placeholder="password"
-//             required
-//           />
-//         </div>
-
-//         <div>
-//           <button type="submit">
-//             {mode === "login" ? "Login" : "Register"}
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
 
 export default AuthForm;

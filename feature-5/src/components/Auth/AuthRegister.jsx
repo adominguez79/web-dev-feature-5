@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUser } from "./AuthService";
+import { createUser } from "../../services/AuthService";
 import AuthForm from "./AuthForm";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,8 @@ const AuthRegister = () => {
     password: "",
     bio: "",
     interests: "",
+    firstName: "",
+    lastName: "",
   });
 
   const [error, setError] = useState("");

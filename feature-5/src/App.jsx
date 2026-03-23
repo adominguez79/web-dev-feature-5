@@ -7,6 +7,7 @@ import AuthorView from "./Views/AuthorView";
 import ForumView from "./views/ForumView";
 import ProfileView from "./views/ProfileView";
 import AuthModule from "./components/Auth/Auth";
+import AuthRegister from "./components/Auth/AuthRegister";
 import ProtectedRoute from "./services/ProtectedRoute";
 
 Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
@@ -17,7 +18,10 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/auth" element={<AuthModule />} />
+        <Route path="/Auth" element={<AuthModule />} />
+
+        <Route path="/register" element={<AuthRegister />} />
+        
         <Route
           path="/forum"
           element={
