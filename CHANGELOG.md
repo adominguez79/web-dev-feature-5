@@ -1,11 +1,21 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
+## [0.3.0] - 2026-03-06
 
-## [Unreleased] - 2026-03-06
+### Added
 
-Here we write upgrading notes for brands. It's a team effort to make them as
-straightforward as possible.
+- [WEBFORUM-7] Auth folder with Auth files
+- [WEBFORUM-8] ProtectedRoute.jsx with protected routes
+
+### Changed
+
+- [WEBFORUM-1] UserService -> AuthService with necessary functions
+
+### Fixed
+
+- [WEBFORUM-1] saveProfile in ProfileView.jsx to use a service
+
+## [0.2.0] - 2026-03-06
 
 ### Added
 
